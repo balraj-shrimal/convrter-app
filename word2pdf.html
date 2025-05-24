@@ -68,7 +68,7 @@
     <input type="file" id="upload" style="color: white;"accept=".docx" />
     <br />
     <button style="background-color: #007bff;color:white" onclick="convertToPDF()">Convert to PDF</button>
-    <div id="status"></div>
+    
   </div>
   </center>
   
@@ -79,32 +79,46 @@
   <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
   <!-- html2pdf.js for PDF conversion -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-  
-    
-    function convertToPDF() {
-      if (!renderedHTML) {
-        alert(" ❌  Error :  Please upload a .DOCX file.");
-        return;
-      }
-      
-       
-      
-      const content = document.getElementById('content');
+  <script>
+  let renderedHTML = null;
 
-      const opt = {
-        margin:       0.5,
-        filename:     'converted.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
-        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-      };
+  document.getElementById('upload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-      html2pdf().set(opt).from(content).save();
-      alert(" ✅ Converted File Downloading...")
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      mammoth.convertToHtml({ arrayBuffer: e.target.result })
+        .then(function(result) {
+          renderedHTML = result.value;
+          document.getElementById('content').innerHTML =""
+        })
+        .catch(function(err) {
+          renderedHTML = null;
+        });
+    };
+    reader.readAsArrayBuffer(file);
+  });
+
+  function convertToPDF() {
+    if (!renderedHTML) {
+      alert(" ❌  Error :  Please upload a .DOCX file.");
+      return;
     }
-  </script>
+    const content = document.getElementById('content');
+    const opt = {
+      margin:       0.5,
+      filename:     'converted.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+      pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    html2pdf().set(opt).from(content).save();
+    alert(" ✅ Converted File is Downloading...");
+  }
+</script>
 </body>
 </html>
