@@ -67,7 +67,7 @@
   <div id="upload-section">
     <input type="file" id="upload" style="color: white;"accept=".docx" />
     <br />
-    <button style="background-color: #007bff;" onclick="convertToPDF()">Convert to PDF</button>
+    <button style="background-color: #007bff;color:white" onclick="convertToPDF()">Convert to PDF</button>
     <div id="status"></div>
   </div>
   </center>
@@ -79,9 +79,9 @@
   <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
   <!-- html2pdf.js for PDF conversion -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
 
-  <script>
+  
     
     function convertToPDF() {
       if (!renderedHTML) {
