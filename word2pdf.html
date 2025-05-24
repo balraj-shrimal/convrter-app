@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Word to PDF Converter</title>
+<link rel="stylesheet" href="c.css">
+<!-- <style>
+    body {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      font-family: Arial, sans-serif;
+      color: #fff;
+      margin: 0;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 30px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    #convertBtn {
+      background-color: #007bff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #convertBtn:hover {
+      background-color: #4facfe;
+    }
+  </style> -->
+<style>#status {
+      margin-top: 15px;
+      color: green !important;
+    }</style>
+</head>
+<body>
+  <center>
+    <br><br><br>
+  <div class="container">
+  <h1 style="color: white;">WORD TO PDF CONVERTER</h1>
+
+  <div id="upload-section">
+    <input type="file" id="upload" style="color: white;"accept=".docx" />
+    <br />
+    <button style="background-color: #007bff;" onclick="convertToPDF()">Convert to PDF</button>
+    <div id="status"></div>
+  </div>
+  </center>
+  
+
+  <div id="content"></div></div>
+
+  <!-- Mammoth.js to parse .docx -->
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+
+  <!-- html2pdf.js for PDF conversion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    
+    function convertToPDF() {
+      if (!renderedHTML) {
+        alert(" ❌  Error :  Please upload a .DOCX file.");
+        return;
+      }
+      
+       
+      
+      const content = document.getElementById('content');
+
+      const opt = {
+        margin:       0.5,
+        filename:     'converted.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+
+      html2pdf().set(opt).from(content).save();
+      alert(" ✅ Converted File Downloading...")
+    }
+  </script>
+</body>
+</html>
