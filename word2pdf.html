@@ -28,8 +28,7 @@
   <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-  <script>
+<script>
   let renderedHTML = null;
 
   document.getElementById('upload').addEventListener('change', function(event) {
@@ -41,10 +40,11 @@
       mammoth.convertToHtml({ arrayBuffer: e.target.result })
         .then(function(result) {
           renderedHTML = result.value;
-          document.getElementById('content').innerHTML =""
+          document.getElementById('content').innerHTML = renderedHTML;
         })
         .catch(function(err) {
           renderedHTML = null;
+          alert("❌ Failed to read the file.");
         });
     };
     reader.readAsArrayBuffer(file);
@@ -52,21 +52,24 @@
 
   function convertToPDF() {
     if (!renderedHTML) {
-      alert(" ❌  Error :  Please upload a .DOCX file.");
+      alert(" ❌ Error: Please upload a .DOCX file.");
       return;
     }
+
     const content = document.getElementById('content');
     const opt = {
-      margin:       0.5,
-      filename:     'converted.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true },
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
-      pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+      margin: 0.5,
+      filename: 'converted.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
+
     html2pdf().set(opt).from(content).save();
-    alert(" ✅ Converted File is Downloading...");
+    alert("✅ Converted file is downloading...");
   }
 </script>
+
 </body>
 </html>
